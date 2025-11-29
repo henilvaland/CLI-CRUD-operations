@@ -3,7 +3,7 @@
 import { Command } from "commander";
 import inquirer from "inquirer";
 import chalk from 'chalk';
-import { addTask } from "./src/taskManager.js";
+import { addTask, getAllTasks } from "./src/taskManager.js";
 import { displayTask } from "./src/utils.js";
 
 const program = new Command();
@@ -41,4 +41,23 @@ program
         }
     })
 
+//node index.js list
+program
+    .command('list')
+    .description('List all tasks')
+    .action(async () => {
+        try {
+         const tasks = await getAllTasks();
+         if(tasks.length === 0){
+            console.log(chalk.yellow('\n No tasks found!\n'));
+            return;
+         }
+         tasks.forEach(task => {
+            displayTask(task);
+         });
+        } catch (error) {
+            console.error(chalk.red(` Error: ${error.message}\n`));            
+        }
+    })
+    
 program.parse(process.argv);
