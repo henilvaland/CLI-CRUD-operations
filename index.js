@@ -37,7 +37,7 @@ program
             console.log(chalk.green('\n Task added successfully!'));
             displayTask(task,true);
         } catch (error) {
-            console.error(chalk.red(` Error: ${error.message}\n`));
+            console.error(chalk.red(` Error in add command: ${error.message}\n`));
         }
     })
 
@@ -56,7 +56,28 @@ program
             displayTask(task);
          });
         } catch (error) {
-            console.error(chalk.red(` Error: ${error.message}\n`));            
+            console.error(chalk.red(` Error in get all command: ${error.message}\n`));            
+        }
+    })
+
+program
+    .command('delete')
+    .description('Delete a task')
+    .action(() => {
+        try {
+            //add delete functionality API call
+        } catch (error) {
+            console.error(chalk.red(` Error in delete command: ${error.message}\n`));
+        }
+    })
+
+program
+    .command('update')
+    .description(() =>{
+        try {
+            //add update API call
+        } catch (error) {
+            console.error(chalk.red(` Error in update command: ${error.message}\n`));            
         }
     })
     
