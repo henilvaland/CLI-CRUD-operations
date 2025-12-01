@@ -60,6 +60,7 @@ program
         }
     })
 
+// node index.js delete 1764607402609
 program
     .command('delete <taskId')
     .description('Delete a task')
@@ -73,6 +74,7 @@ program
         }
     })
 
+// node index.js update 1764417188748 -t "Install node Js Vrsn 22" -p average; 
 program
     .command('update <taskId>')
     .option('-t, --title <title>', 'Task title')
@@ -100,7 +102,8 @@ program
             console.error(chalk.red(` Error in update command: ${error.message}\n`));            
         }
     })
-    
+
+// node index.js show 1764417154714
 program
     .command('show <taskId')
     .description('Show task details')
