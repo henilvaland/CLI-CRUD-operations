@@ -59,6 +59,11 @@ export async function addTask(taskData){
     return newTask;
 }
 
+export async function getTaskById(taskId){
+    const tasks = await getAllTasks();
+    return tasks.find(t => t.id == taskId);
+}
+
 export async function updateTask(taskId, updates){
     const tasks = await getAllTasks();
     const taskIndex = tasks.findIndex(t => t.id == taskId);

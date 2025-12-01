@@ -3,7 +3,7 @@
 import { Command } from "commander";
 import inquirer from "inquirer";
 import chalk from 'chalk';
-import { addTask, getAllTasks } from "./src/taskManager.js";
+import { addTask, deleteTask, getAllTasks, getTaskById, updateTask } from "./src/taskManager.js";
 import { displayTask } from "./src/utils.js";
 
 const program = new Command();
@@ -61,24 +61,56 @@ program
     })
 
 program
-    .command('delete')
+    .command('delete <taskId')
     .description('Delete a task')
-    .action(() => {
+    .action( async (taskId) => {
         try {
             //add delete functionality API call
+            const remainingTasks = await deleteTask(taskId);
+            console.log(chalk.green('\n Task deleted successfully!\n'));
         } catch (error) {
             console.error(chalk.red(` Error in delete command: ${error.message}\n`));
         }
     })
 
 program
-    .command('update')
-    .description(() =>{
+    .command('update <taskId>')
+    .option('-t, --title <title>', 'Task title')
+    .option('-p, --priority <priority>', 'Priority', 'medium')
+    .description('Update a task')
+    .action(async (taskId, options) => {
         try {
-            //add update API call
+            console.log('in update command');
+            const taskData = { ...options };
+            if(!taskData.title){
+                const answers = await inquirer.prompt([
+                    {
+                        type: 'input',
+                        name: 'title',
+                        message: 'Task title: ',
+                        validate: (input) => input.trim().length > 0 || 'Title is required'
+                    },
+                ])
+                taskData = { ...taskData, ...answers};
+            }
+            const updatedTask = await updateTask(taskId, taskData);
+            console.log(chalk.green('\n Task updated successfully!'));
+            displayTask(updatedTask,true);
         } catch (error) {
             console.error(chalk.red(` Error in update command: ${error.message}\n`));            
         }
     })
     
+program
+    .command('show <taskId')
+    .description('Show task details')
+    .action( async (taskId) => {
+        try {
+            const task = await getTaskById(taskId);
+            displayTask(task,true);
+        } catch (error) {
+            console.error(chalk.red(` Error in show command: ${error.message}\n`));
+        }
+    });
+
 program.parse(process.argv);
