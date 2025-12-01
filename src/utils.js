@@ -10,7 +10,7 @@ export function formatPriority(priority) {
 }
 
 export function displayTask(task, detailed = false) {
-  console.log(chalk.bold.cyan(`\n📋 Task #${task.id.slice(-6)}`));
+  console.log(chalk.bold.cyan(`\n📋 Task #${task?.id?.slice(-6)}`));
   console.log(chalk.bold.white(`   ${task.title}`));
   
   if (task.description) {
