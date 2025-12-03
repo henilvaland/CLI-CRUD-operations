@@ -35,3 +35,23 @@ export async function getWeather(city = 'London') {
     }
   }
 }
+
+export async function getMotivationalQuote() {
+  try {
+    const response = await axios.get('https://api.quotable.io/random', {
+      timeout: 5000
+    });
+    
+    return {
+      text: response.data.content,
+      author: response.data.author,
+      success: true
+    };
+  } catch (error) {
+    return {
+      text: 'The way to get started is to quit talking and begin doing.',
+      author: 'Walt Disney',
+      success: false
+    };
+  }
+}
