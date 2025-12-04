@@ -55,3 +55,31 @@ export async function getMotivationalQuote() {
     };
   }
 }
+
+export async function getWeatherBasedSuggestions(city = 'London') {
+  try {
+    const weather = await getWeather(city);
+    const suggestions = [];
+    
+    if (parseInt(weather.temperature) < 10) {
+      suggestions.push({
+        title: 'Plan indoor activities',
+        description: 'Cold weather - perfect for indoor tasks',
+        priority: 'low',
+        category: 'planning'
+      });
+    }
+    return {
+      weather,
+      suggestions,
+      success: true
+    };
+  } catch (error) {
+    return {
+      weather: null,
+      suggestions: [],
+      success: false,
+      error: error.message
+    };
+  }
+}
